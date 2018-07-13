@@ -39,8 +39,7 @@ class Film
   end
 
   def self.map_items(array_of_film_info_hashes)
-    result = array_of_film_info_hashes.map{|info| Film.new(info)}
-    return result
+    return array_of_film_info_hashes.map{|info| Film.new(info)}
   end
 
   def self.display_all()

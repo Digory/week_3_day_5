@@ -1,16 +1,22 @@
 require_relative('../db/sql_runner.rb')
 require_relative('customer.rb')
+require_relative('screening.rb')
 require('pry')
 
 class Ticket
 
   attr_reader :id
-  attr_accessor :customer_id, :film_id
+  attr_accessor :customer_id, :film_id, :screening
 
   def initialize(options)
     @id = options['id'].to_i if options['id']
     @customer_id = options['customer_id'].to_i
-    @film_id =  options['film_id'].to_i
+    @film_id = options['film_id'].to_i
+    @screening = options['screening'] if options['screening']
+    take_customer_payment() if (@screening.buy_ticket?)
+  end
+
+  def take_customer_payment()
     customer = Customer.find(@customer_id)
     cost_of_film = Film.find(film_id).price
     customer.funds -= cost_of_film

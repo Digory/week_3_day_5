@@ -6,7 +6,6 @@ require('pry')
 
 Customer.delete_all()
 Film.delete_all()
-Ticket.delete_all()
 
 customer1 = Customer.new({
   'name' => 'Joanna',
@@ -26,22 +25,49 @@ film1 = Film.new({
   })
 film1.save()
 
+film2 = Film.new({
+  'title' => 'The Programmer',
+  'price' => 9.00
+  })
+film2.save()
+
+screening1 = Screening.new({
+  'film_id' => film1.id,
+  'screening_time' => '16:50'
+  })
+screening1.save()
+
+screening2 = Screening.new({
+  'film_id' => film2.id,
+  'screening_time' => '10:30'
+  })
+screening2.save()
+
+screening3 = Screening.new({
+  'film_id' => film1.id,
+  'screening_time' => '13:00'
+  })
+screening3.save()
+
 ticket1 = Ticket.new({
   'customer_id' => customer1.id,
-  'film_id' => film1.id
+  'film_id' => film1.id,
+  'screening' => screening1
   })
 ticket1.save()
 
 ticket2 = Ticket.new({
-  'customer_id' => customer1.id,
-  'film_id' => film1.id
+  'customer_id' => customer2.id,
+  'film_id' => film1.id,
+  'screening' => screening1
   })
 ticket2.save()
 
-Screening.save(film1.id, '12:30')
-
-p Screening.display_screenings_by_film_id(film1.id)
-
+ticket3 = Ticket.new({
+  'customer_id' => customer1.id,
+  'film_id' => film2.id,
+  'screening' => screening3
+  })
 
 # p customer1.funds
 # p film1.price
@@ -59,3 +85,8 @@ p Screening.display_screenings_by_film_id(film1.id)
 # p customer1.num_of_tickets()
 # p film1.num_of_customers()
 # p Customer.display_all()
+# p ticket1.screening
+# p Screening.all()
+# p film1.id
+# p Screening.all_screenings_by_film_id(film1.id)
+# p Screening.most_popular_time_by_film_id(film1.id)
