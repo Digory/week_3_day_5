@@ -26,6 +26,7 @@ class Screening
     else
       @num_of_tickets += 1
       update()
+      return true
     end
   end
 
