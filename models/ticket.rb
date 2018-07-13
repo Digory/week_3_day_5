@@ -1,4 +1,6 @@
 require_relative('../db/sql_runner.rb')
+require_relative('customer.rb')
+require('pry')
 
 class Ticket
 
@@ -9,6 +11,10 @@ class Ticket
     @id = options['id'].to_i if options['id']
     @customer_id = options['customer_id'].to_i
     @film_id =  options['film_id'].to_i
+    customer = Customer.find(@customer_id)
+    cost_of_film = Film.find(film_id).price
+    customer.funds -= cost_of_film
+    customer.update()
   end
 
   def save()
@@ -21,6 +27,12 @@ class Ticket
   def update()
     sql = "UPDATE tickets SET (customer_id, film_id) = ($1, $2) WHERE id = $3"
     values = [@customer_id, @film_id, @id]
+    SqlRunner.run(sql, values)
+  end
+
+  def delete()
+    sql = "DELETE FROM tickets WHERE id = $1"
+    values = [@id]
     SqlRunner.run(sql, values)
   end
 
@@ -38,5 +50,7 @@ class Ticket
     sql = "DELETE FROM tickets"
     SqlRunner.run(sql)
   end
+
+
 
 end

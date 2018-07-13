@@ -24,8 +24,14 @@ class Customer
     SqlRunner.run(sql, values)
   end
 
-  def self.map_items(array_of_customer_data_hashes)
-    result = array_of_customer_data_hashes.map{|data| Customer.new(data)}
+  def delete()
+    sql = "DELETE FROM customers WHERE id = $1"
+    values = [@id]
+    SqlRunner.run(sql, values)
+  end
+
+  def self.map_items(array_of_data_hashes)
+    result = array_of_data_hashes.map{|data| Customer.new(data)}
     return result
   end
 
@@ -39,6 +45,29 @@ class Customer
     sql = "DELETE FROM customers"
     SqlRunner.run(sql)
   end
+
+  def self.find(id)
+    sql = "SELECT * FROM customers WHERE id = $1"
+    values = [id]
+    array_of_customer_hash = SqlRunner.run(sql, values)
+    return Customer.new(array_of_customer_hash[0])
+  end
+
+  def films()
+    sql = "SELECT films.*
+    FROM films INNER JOIN tickets
+    ON films.id = tickets.film_id
+    WHERE customer_id = $1"
+    values = [@id]
+    array_of_film_hashes = SqlRunner.run(sql, values)
+    return Film.map_items(array_of_film_hashes)
+  end
+
+  def num_of_tickets()
+    return films().length
+  end
+
+
 
 
 
