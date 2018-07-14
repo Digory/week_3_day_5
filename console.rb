@@ -15,7 +15,7 @@ customer1.save()
 
 customer2 = Customer.new({
   'name' => 'Bandit',
-  'funds' => 12
+  'funds' => 8
   })
 customer2.save()
 
@@ -50,7 +50,7 @@ screening3 = Screening.new({
 screening3.save()
 
 ticket1 = Ticket.new({
-  'customer_id' => customer1.id,
+  'customer_id' => customer2.id,
   'film_id' => film1.id,
   'screening' => screening1
   })
@@ -68,8 +68,9 @@ ticket3 = Ticket.new({
   'film_id' => film2.id,
   'screening' => screening3
   })
+ticket3.save()
 
-# p customer1.funds
+# p Customer.display_all
 # p film1.price
 # p ticket1.film_id
 # customer2.funds = 1000
